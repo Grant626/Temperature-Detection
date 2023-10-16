@@ -1,0 +1,95 @@
+;
+; Installs WinUSB as the driver for Seek Thermal Cameras
+;
+
+; =================== Strings ===================
+
+[Strings]
+ManufacturerName="Seek Thermal, Inc."
+ClassName="Universal Serial Bus devices"
+DeviceName="Seek Thermal Camera"
+DeviceNameiOS="Seek Thermal Camera (iOS)"
+
+; =================== Version ===================
+
+[Version]
+Signature = "$Windows NT$"
+Class = "Generic WinUSB device"
+ClassGUID = {78a1c341-4539-11d3-b88d-00c04fad5171}
+Provider  = %ManufacturerName%
+CatalogFile = seekusb.cat
+DriverVer = 09/18/2019, 4.0.0.0
+
+; ========== Manufacturer/Models sections ===========
+
+[Manufacturer]
+%ManufacturerName% = DeviceList, ntx86, ntamd64
+
+[DeviceList.ntx86]
+%DeviceName%= Driver32, USB\VID_289D&PID_0010
+%DeviceName%= Driver32, USB\VID_289D&PID_0010&MI_00
+%DeviceNameiOS%= Driver32, USB\VID_289D&PID_0010&MI_01
+
+%DeviceName%= Driver32, USB\VID_289D&PID_0011
+%DeviceName%= Driver32, USB\VID_289D&PID_0011&MI_00
+%DeviceNameiOS%= Driver32, USB\VID_289D&PID_0011&MI_01
+
+%DeviceName%= Driver32, USB\VID_289D&PID_FFF2
+
+[DeviceList.ntamd64]
+%DeviceName%= Driver64WV, USB\VID_289D&PID_0010
+%DeviceName%= Driver64WV, USB\VID_289D&PID_0010&MI_00
+%DeviceNameiOS%= Driver64WV, USB\VID_289D&PID_0010&MI_01
+
+%DeviceName%= Driver64WV, USB\VID_289D&PID_0011
+%DeviceName%= Driver64WV, USB\VID_289D&PID_0011&MI_00
+%DeviceNameiOS%= Driver64WV, USB\VID_289D&PID_0011&MI_01
+
+%DeviceName%= Driver64WV, USB\VID_289D&PID_FFF2
+
+; ========== Class definition (for Windows 8 and ealier versions)===========
+
+[ClassInstall32]
+Addreg = WinUSBDeviceClassReg
+
+[WinUSBDeviceClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-20
+
+; =================== Installation ===================
+
+;------------------------------------------------------------------------------
+;  			        x86
+;------------------------------------------------------------------------------
+
+[Driver32.ntx86]
+Include = winusb.inf
+Needs   = WINUSB.NT
+
+[Driver32.ntx86.Services]
+Include = winusb.inf
+Needs   = WINUSB.NT.Services
+
+[Driver32.ntx86.HW]
+AddReg = Driver32.ntx86.Add_Reg
+
+[Driver32.ntx86.Add_Reg]
+HKR,,DeviceInterfaceGUIDs,0x10000,"{A09E8FEB-919F-482E-B0C5-87696CE8FF0B}"
+
+;------------------------------------------------------------------------------
+;  			        x64
+;------------------------------------------------------------------------------
+
+[Driver64WV.ntamd64]
+Include = winusb.inf
+Needs   = WINUSB.NT
+
+[Driver64WV.ntamd64.Services]
+Include = winusb.inf
+Needs   = WINUSB.NT.Services
+
+[Driver64WV.ntamd64.HW]
+AddReg = Driver64WV.ntamd64.Add_Reg
+
+[Driver64WV.ntamd64.Add_Reg]
+HKR,,DeviceInterfaceGUIDs,0x10000,"{A09E8FEB-919F-482E-B0C5-87696CE8FF0B}"

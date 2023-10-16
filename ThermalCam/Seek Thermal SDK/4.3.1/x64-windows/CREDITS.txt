@@ -1,0 +1,20 @@
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Simple DirectMedia Layer
+Copyright (C) 1997-2019 Sam Lantinga <slouken@libsdl.org>
+
+The Simple DirectMedia Layer (SDL for short) is a cross-platform library
+designed to make it easy to write multi-media software, such as games
+and emulators.
+
+The Simple DirectMedia Layer library source code is available from:
+https://www.libsdl.org/
+
+This library is distributed under the terms of the zlib license:
+http://www.zlib.net/zlib_license.html
+
+This SDK package provided by Seek Thermal, Inc. includes an unmodified copy of SDL2, a third party library licensed under the terms of the terms of the zlib license (See LICENSE.txt)
+
+To obtain a copy of the SDL2 source code that was used to build the SDL2 libraries included in this package you may:
+1) Download a complete copy at the following location: https://www.libsdl.org/release/SDL2-2.0.10.tar.gz
+2) Download a complete copy directly from the Seek Thermal Developer portal.
