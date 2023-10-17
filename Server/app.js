@@ -14,12 +14,12 @@ app.get('/hello', (req, res) => {
   console.log('Hello World');
 });
 
-app.get('/python', (req, res) => {
+app.post('/python', (req, res) => {
   // Return some sample data as the response
   res.json({
     message: 'Hello, from python script!'
   });
-  console.log('Hello, from python script!');
+  console.log(req);
 });
 
 

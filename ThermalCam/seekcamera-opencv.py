@@ -210,7 +210,6 @@ def main():
                             1
                         )
 
-
                     # Render the image to the window.
                     cv2.imshow(window_name, img)
                     # cv2.setMouseCallback(window_name, mouse_events)
