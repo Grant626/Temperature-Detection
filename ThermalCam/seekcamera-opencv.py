@@ -19,6 +19,7 @@ from threading import Condition
 
 import cv2
 import numpy as np
+import requests
 
 from seekcamera import (
     SeekCameraIOType,
@@ -170,6 +171,17 @@ def getMinMax(img, renderer):
     cv2.circle(img, (renderer.max_x, renderer.max_y), 1, (0, 0, 255), 2)
     cv2.circle(img, (renderer.min_x, renderer.min_y), 1, (255, 0, 0), 2)
 
+"""Handling requests between server
+"""
+
+url = 'http://localhost:3000/'
+
+def postMaxTemp(renderer):
+    payload = {
+        'maxTemp': "{} C".format(str(round(renderer.max, 2)))
+    }
+    requests.post(url, data=payload)
+
 
 def main():
     window_name = "Seek Thermal - Python OpenCV Sample"
@@ -198,7 +210,7 @@ def main():
                         renderer.first_frame = False
 
                     getMinMax(img, renderer)
-
+                    
                     if renderer.max > 30:
                         img = cv2.putText(
                             img,
@@ -213,7 +225,10 @@ def main():
                     # Render the image to the window.
                     cv2.imshow(window_name, img)
                     # cv2.setMouseCallback(window_name, mouse_events)
-
+                    
+                    #Send max temp from frame to server
+                    postMaxTemp(renderer)
+                    
             # Process key events.
             key = cv2.waitKey(1)
             if key == ord("q"):

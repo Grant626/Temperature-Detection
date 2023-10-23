@@ -1,11 +1,9 @@
 import requests
 
-url = 'http://localhost:3000/python'
+url = 'http://localhost:3000/'
 
-correct_payload = {
+payload = {
     'message': 'Detected temperature above 30C!!!'
 }
 
-# Output => OK
-r = requests.post(url, data=correct_payload)
-print(r.text)
+requests.post(url, data=payload)
