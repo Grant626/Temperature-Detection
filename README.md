@@ -13,8 +13,11 @@ Ensure that the Seek Thermal SDK and all required python dependencies are instal
 -imutils
 
 # Deployment
-Run the server with the command:
+Navigate to the python server directory:
 
+cd Python-Server 
+
+Run the server with the command:
 
 python webstreaming.py --ip 0.0.0.0 --port 8000
 
