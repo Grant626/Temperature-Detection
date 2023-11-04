@@ -1,25 +1,7 @@
-#!/usr/bin/env python3
-# Copyright 2021 Seek Thermal Inc.
-#
-# Original author: Michael S. Mead <mmead@thermal.com>
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      https://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 from threading import Condition
 
 import cv2
 import numpy as np
-import requests
 
 from seekcamera import (
     SeekCameraIOType,
@@ -30,7 +12,6 @@ from seekcamera import (
     SeekCamera,
     SeekFrame,
 )
-
 
 class Renderer:
     """Contains camera and image data required to render images to the screen."""
@@ -172,59 +153,42 @@ def getMinMax(img, renderer):
     cv2.circle(img, (renderer.min_x, renderer.min_y), 1, (255, 0, 0), 2)
 
 def main():
-    window_name = "Seek Thermal - Python OpenCV Sample"
-    cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
-
     # Create a context structure responsible for managing all connected USB cameras.
     # Cameras with other IO types can be managed by using a bitwise or of the
     # SeekCameraIOType enum cases.
     with SeekCameraManager(SeekCameraIOType.USB) as manager:
-        # Start listening for events.
-        renderer = Renderer()
-        manager.register_event_callback(on_event, renderer)
+      # Start listening for events.
+      renderer = Renderer()
+      manager.register_event_callback(on_event, renderer)
 
-        while True:
-            # Wait a maximum of 150ms for each frame to be received.
-            # A condition variable is used to synchronize the access to the renderer;
-            # it will be notified by the user defined frame available callback thread.
-            with renderer.frame_condition:
-                if renderer.frame_condition.wait(150.0 / 1000.0):
-                    img = renderer.frame.data
-                    (height, width, _) = img.shape
+      while True:
+          # Wait a maximum of 150ms for each frame to be received.
+          # A condition variable is used to synchronize the access to the renderer;
+          # it will be notified by the user defined frame available callback thread.
+          with renderer.frame_condition:
+              if renderer.frame_condition.wait(150.0 / 1000.0):
+                  img = renderer.frame.data
+                  (height, width, _) = img.shape
 
-                    # Resize the rendering window.
-                    if renderer.first_frame:
-                        cv2.resizeWindow(window_name, width * 2, height * 2)
-                        renderer.first_frame = False
+                  # Resize the rendering window.
+                  if renderer.first_frame:
+                      renderer.first_frame = False
 
-                    getMinMax(img, renderer)
-                    
-                    if renderer.max > 30:
-                        img = cv2.putText(
-                            img,
-                            "Temp over 30C !!!",
-                            (110, 110),
-                            cv2.FONT_HERSHEY_PLAIN,
-                            .8,
-                            (255, 255,255),
-                            1
-                        )
+                  getMinMax(img, renderer)
+                  
+                  if renderer.max > 30:
+                      img = cv2.putText(
+                          img,
+                          "Temp over 30C !!!",
+                          (110, 110),
+                          cv2.FONT_HERSHEY_PLAIN,
+                          .8,
+                          (255, 255,255),
+                          1
+                      )
 
-                    # Render the image to the window.
-                    cv2.imshow(window_name, img)
-                    # cv2.setMouseCallback(window_name, mouse_events)
-                    
-            # Process key events.
-            key = cv2.waitKey(1)
-            if key == ord("q"):
-                break
-
-            # Check if the window has been closed manually.
-            if not cv2.getWindowProperty(window_name, cv2.WND_PROP_VISIBLE):
-                break
-
-    cv2.destroyWindow(window_name)
-
+                  # final frame to be sent is here
+                  print(img)
 
 if __name__ == "__main__":
     main()
