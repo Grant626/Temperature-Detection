@@ -3,24 +3,28 @@ Temperature detection system for power substation detection robot.
 
 # Installation
 Ensure that the Seek Thermal SDK and all required python dependencies are installed:
+<ul>
+  <li>seekcamera-python</li>
+  <li>flask</li>
+  <li>opencv-python</li>
+  <li>imutils</li>
+</ul>
 
--seekcamera-python
+```
+pip install seekcamera-python flask opencv-python imutils
+```
 
--flask
-
--opencv-python
-
--imutils
+Double check that all dependacy imports are satisfied in the server file.
 
 # Deployment
 Navigate to the python server directory:
-
+```
 cd Python-Server 
-
+```
 Run the server with the command:
-
+```
 python webstreaming.py --ip 0.0.0.0 --port 8000
-
+```
 This will open a server instance at 127.0.0.1:8000 on your local machine
 
 This will also open an instance to be accessed on any machine connected to the local network, check console log for the ip
