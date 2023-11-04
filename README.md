@@ -12,7 +12,9 @@ Ensure that the Seek Thermal SDK and all required python dependencies are instal
 # Deployment
 Run the server with the command:
 
-'''python webstreaming.py --ip 0.0.0.0 --port 8000'''
+''''python
+python webstreaming.py --ip 0.0.0.0 --port 8000
+''''
 
 This will open a server instance at 127.0.0.1:8000 on your local machine
 
