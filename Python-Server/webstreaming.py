@@ -1,5 +1,4 @@
 # import the necessary packages
-from pyimagesearch.motion_detection.singlemotiondetector import SingleMotionDetector
 from thermal_cam.thermal_detection import *
 from imutils.video import VideoStream
 from flask import Response
@@ -34,9 +33,10 @@ def index():
     return render_template("index.html")
 
 
-def detect_temperature():
+def detect_temperature(framerate):
   global outputFrame, lock
   
+  frame_wait = 1 / framerate
   # Create a context structure responsible for managing all connected USB cameras.
   # Cameras with other IO types can be managed by using a bitwise or of the
   # SeekCameraIOType enum cases.
@@ -50,7 +50,9 @@ def detect_temperature():
           # A condition variable is used to synchronize the access to the renderer;
           # it will be notified by the user defined frame available callback thread.
           with renderer.frame_condition:
-              if renderer.frame_condition.wait(150.0 / 1000.0):
+              # testing limit of framerate, ~15 framerate here
+            if renderer.frame_condition.wait_for(time.sleep(frame_wait)):
+               if renderer.frame_condition.wait(150.0 / 1000.0):
                   img = renderer.frame.data
                   (height, width, _) = img.shape
                   img = imutils.resize(img, width=400)
@@ -126,16 +128,16 @@ if __name__ == "__main__":
     )
     ap.add_argument(
         "-f",
-        "--frame-count",
+        "--framerate",
         type=int,
-        default=32,
+        default=15,
         help="# framerate to stream at",
     )
     args = vars(ap.parse_args())
 
-    # start a thread that will perform motion detection
+    # start a thread that will perform temperature detection
     t = threading.Thread(target=detect_temperature, args=(
-    	args["frame_count"],))
+    	args["framerate"],))
     t.daemon = True
     t.start()
 

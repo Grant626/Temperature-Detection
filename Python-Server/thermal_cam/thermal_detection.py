@@ -23,9 +23,7 @@ class Renderer:
         self.frame_condition = Condition()
         self.first_frame = True
 
-
 print(SeekCamera.__doc__)
-
 
 def on_frame(_camera, camera_frame, renderer):
     """Async callback fired whenever a new frame is available.
@@ -160,7 +158,7 @@ def main():
       # Start listening for events.
       renderer = Renderer()
       manager.register_event_callback(on_event, renderer)
-
+      
       while True:
           # Wait a maximum of 150ms for each frame to be received.
           # A condition variable is used to synchronize the access to the renderer;
