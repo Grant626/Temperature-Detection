@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"
+      integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <title>Your Robot Monitoring System - Nodes</title>
+  </head>
+  <body>
+
+    <!-- Navbar -->
+    <nav
+      class="navbar navbar-expand-lg navbar-light bg-primary justify-content-center">
+      <a class="navbar-brand text-white font-weight-bold" href="/">Home</a>
+      <a class="navbar-brand text-white font-weight-bold" href="/nodes">Nodes</a>
+    </nav>
+
+    <!-- Nodes Page -->
+    <div class="container mt-4" id="nodesPage">
+      <h1>Nodes</h1>
+      <div class="row">
+        <!-- Node 1 -->
+        <div class="col-md-3 mb-4">
+          <div class="card">
+            <img src="/node_1" class="card-img-top" alt="Node 1 Image">
+            <div class="card-body">
+              <h5 class="card-title">Node 1</h5>
+              <!-- Display data for Node 1 -->
+              <p class="card-text">Temperature: <span id="node1Temp">--</span></p>
+              <p class="card-text">Last Checked: <span id="node1Time">--</span></p>
+              <p class="card-text">Status: <span id="node1Status">--</span></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Node 2 -->
+        <div class="col-md-3 mb-4">
+          <div class="card">
+            <img src="/node_2" class="card-img-top" alt="Node 2 Image">
+            <div class="card-body">
+              <h5 class="card-title">Node 2</h5>
+              <!-- Display data for Node 2 -->
+              <p class="card-text">Temperature: <span id="node2Temp">--</span></p>
+              <p class="card-text">Last Checked: <span id="node2Time">--</span></p>
+              <p class="card-text">Status: <span id="node2Status">--</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+
+        <!-- Node 3 -->
+        <div class="col-md-3 mb-4">
+          <div class="card">
+            <img src="/node_3" class="card-img-top" alt="Node 3 Image">
+            <div class="card-body">
+              <h5 class="card-title">Node 3</h5>
+              <!-- Display data for Node 3 -->
+              <p class="card-text">Temperature: <span id="node3Temp">--</span></p>
+              <p class="card-text">Last Checked: <span id="node3Time">--</span></p>
+              <p class="card-text">Status: <span id="node3Status">--</span></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Node 4 -->
+        <div class="col-md-3 mb-4">
+          <div class="card">
+            <img src="/node_4" class="card-img-top" alt="Node 4 Image">
+            <div class="card-body">
+              <h5 class="card-title">Node 4</h5>
+              <!-- Display data for Node 4 -->
+              <p class="card-text">Temperature: <span id="node4Temp">--</span></p>
+              <p class="card-text">Last Checked: <span id="node4Time">--</span></p>
+              <p class="card-text">Status: <span id="node4Status">--</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

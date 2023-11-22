@@ -1,9 +1,85 @@
-<html>
+<!-- <html>
   <head>
     <title>Pi Video Surveillance</title>
   </head>
   <body>
     <h1>Pi Video Surveillance</h1>
     <img src="{{ url_for('video_feed') }}">
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://unpkg.com/htmx.org@1.9.8"
+      integrity="sha384-rgjA7mptc2ETQqXoYC3/zJvkU7K/aP44Y+z7xQuJiVnB/422P/Ak+F/AqFR7E4Wr"
+      crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"
+      integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <title>Substation Monitoring Robot</title>
+    <link rel="shortcut icon"
+      href="{{ url_for('static',filename='favicon.ico') }}">
+  </head>
+  <body>
+
+    <!-- Navbar -->
+    <nav
+      class="navbar navbar-expand-lg navbar-light bg-primary justify-content-center">
+      <a class="navbar-brand text-white font-weight-bold" href="/">Home</a>
+      <a class="navbar-brand text-white font-weight-bold" href="/nodes">Nodes</a>
+    </nav>
+
+    <!-- Home Page with Live Stream -->
+    <div class="container mt-4">
+      <h1>Live Feed</h1>
+      <div class="row">
+        <div class="col-md-8">
+          <!-- Embedded live stream video here (replace with your actual stream) -->
+          <iframe src="{{ url_for('video_feed') }}" width="100%" height="400"
+            frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="col-md-4">
+          <!-- Display data for live stream -->
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title">Live Feed Data</h5>
+              <p class="card-text">
+                Highest Temperature:
+                <span id="liveTemp" class="text-warning" hx-get="/live_temp"
+                  hx-trigger="every 2s"></span>
+              </p>
+              <p class="card-text">
+                Currently Checking:
+                <span id="liveChecking" class="text-info"
+                  hx-get="/live_checking"
+                  hx-trigger="every 5s">Node #</span>
+              </p>
+              <p class="card-text">
+                System Status:
+                <span id="liveStatus" class="text-success"
+                  hx-get="/live_status"
+                  hx-trigger="every 10s">All Clear</span>
+              </p>
+              <p class="card-text">
+                Current Time:
+                <span id="liveTime" class="text-secondary" hx-get="/live_time"
+                  hx-trigger="every 30s">xx:xx</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

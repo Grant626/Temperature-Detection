@@ -123,70 +123,71 @@ def mouse_events(event, x, y, flags, param):
         y_mouse = y
 
 
-def getMinMax(img, renderer):
+def getMinMax(renderer):
+    return "{}C".format(str(round(renderer.max, 2)))
     # Get pixel data from frame at mouse position
-    data_at_pixel = img[y_mouse][x_mouse]
+    # data_at_pixel = img[y_mouse][x_mouse]
 
     # Put text for the max temp
-    img = cv2.putText(
-        img,
-        "Max temp: {}C".format(str(round(renderer.max, 2))),
-        (15, 15),
-        cv2.FONT_HERSHEY_PLAIN,
-        .8,
-        (0, 0, 255),
-        1
-    )
+    # img = cv2.putText(
+    #     img,
+    #     "Max temp: {}C".format(str(round(renderer.max, 2))),
+    #     (15, 15),
+    #     cv2.FONT_HERSHEY_PLAIN,
+    #     .8,
+    #     (0, 0, 255),
+    #     1
+    # )
     # Put text for the min temp
-    img = cv2.putText(
-        img,
-        "Min temp: {}C".format(str(round(renderer.min, 2))),
-        (15, 30),
-        cv2.FONT_HERSHEY_PLAIN,
-        .8,
-        (255, 0, 0),
-        1
-    )
-    cv2.circle(img, (renderer.max_x, renderer.max_y), 1, (0, 0, 255), 2)
-    cv2.circle(img, (renderer.min_x, renderer.min_y), 1, (255, 0, 0), 2)
+    # img = cv2.putText(
+    #     img,
+    #     "Min temp: {}C".format(str(round(renderer.min, 2))),
+    #     (15, 30),
+    #     cv2.FONT_HERSHEY_PLAIN,
+    #     .8,
+    #     (255, 0, 0),
+    #     1
+    # )
+    # cv2.circle(img, (renderer.max_x, renderer.max_y), 1, (0, 0, 255), 2)
+    # cv2.circle(img, (renderer.min_x, renderer.min_y), 1, (255, 0, 0), 2)
 
-def main():
-    # Create a context structure responsible for managing all connected USB cameras.
-    # Cameras with other IO types can be managed by using a bitwise or of the
-    # SeekCameraIOType enum cases.
-    with SeekCameraManager(SeekCameraIOType.USB) as manager:
-      # Start listening for events.
-      renderer = Renderer()
-      manager.register_event_callback(on_event, renderer)
+# def main():
+#     # Create a context structure responsible for managing all connected USB cameras.
+#     # Cameras with other IO types can be managed by using a bitwise or of the
+#     # SeekCameraIOType enum cases.
+#     with SeekCameraManager(SeekCameraIOType.USB) as manager:
+#       # Start listening for events.
+#       renderer = Renderer()
+#       manager.register_event_callback(on_event, renderer)
       
-      while True:
-          # Wait a maximum of 150ms for each frame to be received.
-          # A condition variable is used to synchronize the access to the renderer;
-          # it will be notified by the user defined frame available callback thread.
-          with renderer.frame_condition:
-              if renderer.frame_condition.wait(150.0 / 1000.0):
-                  img = renderer.frame.data
-                  (height, width, _) = img.shape
+#       while True:
+#           # Wait a maximum of 150ms for each frame to be received.
+#           # A condition variable is used to synchronize the access to the renderer;
+#           # it will be notified by the user defined frame available callback thread.
+#           with renderer.frame_condition:
+#               if renderer.frame_condition.wait(150.0 / 1000.0):
+#                   img = renderer.frame.data
+#                   (height, width, _) = img.shape
 
-                  # Resize the rendering window.
-                  if renderer.first_frame:
-                      renderer.first_frame = False
+#                   # Resize the rendering window.
+#                   if renderer.first_frame:
+#                       renderer.first_frame = False
 
-                  getMinMax(img, renderer)
+#                   getMinMax(img, renderer)
                   
-                  if renderer.max > 30:
-                      img = cv2.putText(
-                          img,
-                          "Temp over 30C !!!",
-                          (110, 110),
-                          cv2.FONT_HERSHEY_PLAIN,
-                          .8,
-                          (255, 255,255),
-                          1
-                      )
+#                   if renderer.max > 30:
+#                       img = cv2.putText(
+#                           img,
+#                           "Temp over 30C !!!",
+#                           (110, 110),
+#                           cv2.FONT_HERSHEY_PLAIN,
+#                           .8,
+#                           (255, 255,255),
+#                           1
+#                       )
 
-                  # final frame to be sent is here
-                  print(img)
+#                   # final frame to be sent is here
+#                   print(img)
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

@@ -1,7 +1,7 @@
 # import the necessary packages
 from thermal_cam.thermal_detection import *
 from imutils.video import VideoStream
-from flask import Response
+from flask import Response, send_from_directory
 from flask import Flask
 from flask import render_template
 import threading
@@ -10,6 +10,7 @@ import datetime
 import imutils
 import time
 import cv2
+import os 
 
 # initialize the output frame and a lock used to ensure thread-safe
 # exchanges of the output frames (useful when multiple browsers/tabs
@@ -26,12 +27,20 @@ app = Flask(__name__)
 vs = VideoStream(src=0).start()
 time.sleep(2.0)
 
+@app.route("/favicon.ico")
+def favicon():
+	return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico',mimetype='image/vnd.microsof.icon')
 
 @app.route("/")
 def index():
     # return the rendered template
     return render_template("index.html")
 
+@app.route("/nodes")
+def nodes():
+    return render_template("nodes.html")
+
+renderer = Renderer()
 
 def detect_temperature(framerate):
   global outputFrame, lock
@@ -42,7 +51,6 @@ def detect_temperature(framerate):
   # SeekCameraIOType enum cases.
   with SeekCameraManager(SeekCameraIOType.USB) as manager:
       # Start listening for events.
-      renderer = Renderer()
       manager.register_event_callback(on_event, renderer)
 
       while True:
@@ -50,9 +58,9 @@ def detect_temperature(framerate):
           # A condition variable is used to synchronize the access to the renderer;
           # it will be notified by the user defined frame available callback thread.
           with renderer.frame_condition:
-              # testing limit of framerate, ~15 framerate here
-            if renderer.frame_condition.wait_for(time.sleep(frame_wait)):
-               if renderer.frame_condition.wait(150.0 / 1000.0):
+            # testing limit of framerate, ~15 framerate here
+            # if renderer.frame_condition.wait_for(time.sleep(frame_wait)):
+                if renderer.frame_condition.wait(150.0 / 1000.0):
                   img = renderer.frame.data
                   (height, width, _) = img.shape
                   img = imutils.resize(img, width=400)
@@ -61,18 +69,18 @@ def detect_temperature(framerate):
                   if renderer.first_frame:
                       renderer.first_frame = False
 
-                  getMinMax(img, renderer)
+                #   getMinMax(img, renderer)
                   
-                  if renderer.max > 30:
-                      img = cv2.putText(
-                          img,
-                          "Temp over 30C !!!",
-                          (110, 110),
-                          cv2.FONT_HERSHEY_PLAIN,
-                          .8,
-                          (255, 255,255),
-                          1
-                      )
+                #   if renderer.max > 30:
+                #       img = cv2.putText(
+                #           img,
+                #           "Temp over 30C !!!",
+                #           (110, 110),
+                #           cv2.FONT_HERSHEY_PLAIN,
+                #           .8,
+                #           (255, 255,255),
+                #           1
+                #       )
 
                   # final frame to be sent is here
                   with lock:
@@ -103,13 +111,36 @@ def generate():
             b"--frame\r\n"
             b"Content-Type: image/jpeg\r\n\r\n" + bytearray(encodedImage) + b"\r\n"
         )
-
+    
+# Routes for thermal data
 
 @app.route("/video_feed")
 def video_feed():
     # return the response generated along with the specific media
     # type (mime type)
     return Response(generate(), mimetype="multipart/x-mixed-replace; boundary=frame")
+
+@app.route("/live_temp")
+def live_temp():
+    # return the highest temp of current frame
+    return getMinMax(renderer)
+
+@app.route("/live_checking")
+def live_checking():
+    # return the highest temp of current frame
+    node = 1
+    return "Node: {}".format(str(node))
+
+@app.route("/live_status")
+def live_status():
+    # return the highest temp of current frame
+    return "All clear"
+
+@app.route("/live_time")
+def live_time():
+    # return current time
+    now = datetime.datetime.now()
+    return "%02d.%02d.%04d / %02d:%02d" % (now.day, now.month, now.year, now.hour, now.minute)
 
 
 # check to see if this is the main thread of execution
