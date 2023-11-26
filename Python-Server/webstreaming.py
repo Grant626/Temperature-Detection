@@ -11,6 +11,7 @@ import imutils
 import time
 import cv2
 import os 
+from PIL import Image
 
 # initialize the output frame and a lock used to ensure thread-safe
 # exchanges of the output frames (useful when multiple browsers/tabs
@@ -44,8 +45,7 @@ renderer = Renderer()
 
 def detect_temperature(framerate):
   global outputFrame, lock
-  
-  frame_wait = 1 / framerate
+
   # Create a context structure responsible for managing all connected USB cameras.
   # Cameras with other IO types can be managed by using a bitwise or of the
   # SeekCameraIOType enum cases.
@@ -89,7 +89,6 @@ def detect_temperature(framerate):
 def generate():
     # grab global references to the output frame and lock variables
     global outputFrame, lock
-    
     # loop over frames from the output stream
     while True:
         # wait until the lock is acquired
@@ -111,8 +110,26 @@ def generate():
             b"--frame\r\n"
             b"Content-Type: image/jpeg\r\n\r\n" + bytearray(encodedImage) + b"\r\n"
         )
-    
+        
+def generateFrame(node):
+    global outputFrame, lock
+    with lock:
+        # check if the output frame is available, otherwise skip
+        # the iteration of the loop
+        if outputFrame is None:
+            print("Couldn't get output frame")
+            return "Error getting output frame"
+
+        img = Image.fromarray(outputFrame)
+        img.save('./static/node_%s.png' % node)
+        return "Saving image for node_%s" % node
+  
+            
+            
 # Routes for thermal data
+@app.route('/current_frame', methods = ['POST'])
+def current_frame():
+    return generateFrame(1)
 
 @app.route("/video_feed")
 def video_feed():
