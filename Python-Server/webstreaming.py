@@ -1,9 +1,7 @@
 # import the necessary packages
 from thermal_cam.thermal_detection import *
 from imutils.video import VideoStream
-from flask import Response, send_from_directory
-from flask import Flask
-from flask import render_template
+from flask import Flask, Response, send_from_directory, render_template, request
 import threading
 import argparse
 import datetime
@@ -127,9 +125,10 @@ def generateFrame(node):
             
             
 # Routes for thermal data
-@app.route('/current_frame', methods = ['POST'])
-def current_frame():
-    return generateFrame(1)
+@app.route('/save_frame', methods = ['POST'])
+def save_frame():
+    node = request.args.get('node')
+    return generateFrame(node)
 
 @app.route("/video_feed")
 def video_feed():
