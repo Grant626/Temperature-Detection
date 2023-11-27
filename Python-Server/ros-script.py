@@ -10,6 +10,6 @@ def saveNodeFrame(node):
     print("Successfully posted frame for node: %s" % node)
   else:
     print("Error (%s) while posting frame for node: %s" % (response.status_code, node))
-    
+
 if __name__ == "__main__":
   saveNodeFrame(node)

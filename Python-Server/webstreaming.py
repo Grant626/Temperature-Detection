@@ -9,6 +9,7 @@ import imutils
 import time
 import cv2
 import os 
+import json
 from PIL import Image
 
 # initialize the output frame and a lock used to ensure thread-safe
@@ -109,14 +110,41 @@ def generateFrame(node):
         # img.save('./static/node_%s.jpg' % node)
         return "Saving image for node_%s" % node
   
-            
-            
-# Routes for thermal data
+               
+### Routes for thermal data
+
+# json RESTful api get/post requests
+@app.route('/node_temp', methods = ['GET', 'POST'])
+def node_temp():
+    node = request.args.get('node')
+    data = json.load(open('./static/node_info.json'))
+    if request.method == 'GET':
+        return data['node%s' % node]['temp']
+    if request.method == 'POST':
+        # data['node%s' % node]['temp'] = 
+        return
+
+@app.route('/node_status', methods = ['GET', 'POST'])
+def node_status():
+    node = request.args.get('node')
+    data = json.load(open('./static/node_info.json'))
+    return data['node%s' % node]['status']
+
+@app.route('/node_checked', methods = ['GET', 'POST'])
+def node_checked():
+    node = request.args.get('node')
+    data = json.load(open('./static/node_info.json'))
+    return data['node%s' % node]['checked']
+
+
+# routes for saving frames
 @app.route('/save_frame', methods = ['POST'])
 def save_frame():
     node = request.args.get('node')
     return generateFrame(node)
 
+
+# routes for handling the live feed
 @app.route("/video_feed")
 def video_feed():
     # return the response generated along with the specific media
@@ -130,13 +158,13 @@ def live_temp():
 
 @app.route("/live_checking")
 def live_checking():
-    # return the highest temp of current frame
+    # return which node the robot is checking 
     node = 1
     return "Node: {}".format(str(node))
 
 @app.route("/live_status")
 def live_status():
-    # return the highest temp of current frame
+    # return current status of robot
     return "All clear"
 
 @app.route("/live_time")

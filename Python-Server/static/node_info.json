@@ -1,0 +1,22 @@
+{
+  "node1": {
+    "temp": "001",
+    "status": "test1",
+    "checked": "111"
+  },
+  "node2": {
+    "temp": "002",
+    "status": "test2",
+    "checked": "112"
+  },
+  "node3": {
+    "temp": "003",
+    "status": "test3",
+    "checked": "113"
+  },
+  "node4": {
+    "temp": "004",
+    "status": "test4",
+    "checked": "114"
+  }
+}
