@@ -36,45 +36,58 @@
     <!-- Navbar -->
     <nav
       class="navbar navbar-expand-lg navbar-light bg-primary justify-content-center">
-      <a class="navbar-brand text-white font-weight-bold" href="/">Home</a>
+      <a class="navbar-brand text-white-50 font-weight-bold" href="/">Home</a>
       <a class="navbar-brand text-white font-weight-bold" href="/nodes">Nodes</a>
     </nav>
 
     <!-- Home Page with Live Stream -->
     <div class="container mt-4">
-      <h1>Live Feed</h1>
-      <div class="row">
-        <div class="col-md-8">
+      <div class="row justify-content-center">
+        <div class="mx-4">
+          <h1>Live Feed</h1>
           <!-- Embedded live stream video here (replace with your actual stream) -->
-          <iframe src="{{ url_for('video_feed') }}" width="100%" height="400"
-            frameborder="0" allowfullscreen></iframe>
+          <img src="{{ url_for('video_feed') }}" width="400" height="300" allowfullscreen></img>
         </div>
-        <div class="col-md-4">
+        <div class="d-flex flex-column align-items-end">
           <!-- Display data for live stream -->
-          <div class="card">
+          <div class="card mt-auto">
             <div class="card-header">
-              <h5 class="card-title">Live Feed Data</h5>
-              <p class="card-text">
+              <h3 class="card-title">Live Feed Data</h5>
+              <p class="card-header">
                 Highest Temperature:
-                <span id="liveTemp" class="text-warning" hx-get="/live_temp"
-                  hx-trigger="every 2s"></span>
+                <span 
+                  id="liveTemp" 
+                  class="text-warning font-weight-bold form-control-lg" 
+                  hx-get="/live_temp"
+                  hx-trigger="load, every 2s"
+                >--C</span>
               </p>
-              <p class="card-text">
+              <p class="card-header">
                 Currently Checking:
-                <span id="liveChecking" class="text-info"
+                <span 
+                  id="liveChecking" 
+                  class="text-info font-weight-bold form-control-lg"
                   hx-get="/live_checking"
-                  hx-trigger="every 5s">Node #</span>
+                  hx-trigger="load, every 5s"
+                >Node #</span>
               </p>
-              <p class="card-text">
+              <p class="card-header">
                 System Status:
-                <span id="liveStatus" class="text-success"
+                <span 
+                  id="liveStatus" 
+                  class="text-success font-weight-bold form-control-lg"
                   hx-get="/live_status"
-                  hx-trigger="every 10s">All Clear</span>
+                  hx-trigger="load, every 10s"
+                >All Clear</span>
               </p>
-              <p class="card-text">
+              <p class="card-header">
                 Current Time:
-                <span id="liveTime" class="text-secondary" hx-get="/live_time"
-                  hx-trigger="every 30s">xx:xx</span>
+                <span 
+                  id="liveTime" 
+                  class="text-secondary font-weight-bold form-control-lg" 
+                  hx-get="/live_time"
+                  hx-trigger="load, every 30s"
+                >xx:xx</span>
               </p>
             </div>
           </div>

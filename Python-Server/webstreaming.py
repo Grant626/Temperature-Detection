@@ -66,21 +66,7 @@ def detect_temperature(framerate):
                   # Resize the rendering window.
                   if renderer.first_frame:
                       renderer.first_frame = False
-
-                #   getMinMax(img, renderer)
-                  
-                #   if renderer.max > 30:
-                #       img = cv2.putText(
-                #           img,
-                #           "Temp over 30C !!!",
-                #           (110, 110),
-                #           cv2.FONT_HERSHEY_PLAIN,
-                #           .8,
-                #           (255, 255,255),
-                #           1
-                #       )
-
-                  # final frame to be sent is here
+                      
                   with lock:
                     outputFrame = img.copy()
 
@@ -118,8 +104,9 @@ def generateFrame(node):
             print("Couldn't get output frame")
             return "Error getting output frame"
 
-        img = Image.fromarray(outputFrame)
-        img.save('./static/node_%s.png' % node)
+        cv2.imwrite('./static/node_%s.jpg' % node, outputFrame)
+        
+        # img.save('./static/node_%s.jpg' % node)
         return "Saving image for node_%s" % node
   
             
