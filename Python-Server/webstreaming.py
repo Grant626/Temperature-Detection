@@ -166,12 +166,14 @@ def live_temp():
 @app.route("/live_checking")
 def live_checking():
     # return which node the robot is checking 
+    # Possibly store global variable and change upon node update
     node = 1
     return "Node: {}".format(str(node))
 
 @app.route("/live_status")
 def live_status():
     # return current status of robot
+    # Possibly check if any node is not functioning properly
     return "All clear"
 
 @app.route("/live_time")
