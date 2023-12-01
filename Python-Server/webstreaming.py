@@ -10,7 +10,6 @@ import time
 import cv2
 import os 
 import json
-from PIL import Image
 
 # initialize the output frame and a lock used to ensure thread-safe
 # exchanges of the output frames (useful when multiple browsers/tabs
@@ -121,26 +120,34 @@ def node_temp():
     if request.method == 'GET':
         return data['node%s' % node]['temp']
     if request.method == 'POST':
-        # data['node%s' % node]['temp'] = 
-        return
+        data['node%s' % node]['temp'] = getMinMax(renderer)
 
 @app.route('/node_status', methods = ['GET', 'POST'])
 def node_status():
     node = request.args.get('node')
     data = json.load(open('./static/node_info.json'))
-    return data['node%s' % node]['status']
+    if request.method == 'GET':
+        return data['node%s' % node]['status']
+    if request.method == 'POST':
+        # Method to check status of node based on new frame temp with desired threshold
+        data['node%s' % node]['status'] = 'Clear'
 
 @app.route('/node_checked', methods = ['GET', 'POST'])
 def node_checked():
     node = request.args.get('node')
     data = json.load(open('./static/node_info.json'))
-    return data['node%s' % node]['checked']
+    if request.method == 'GET':
+        return data['node%s' % node]['checked']
+    if request.method == 'POST':
+        now = datetime.datetime.now()
+        data['node%s' % node]['checked'] = "%02d.%02d.%04d / %02d:%02d" % (now.day, now.month, now.year, now.hour, now.minute)
 
 
 # routes for saving frames
 @app.route('/save_frame', methods = ['POST'])
 def save_frame():
     node = request.args.get('node')
+    # Push current time, frame temp and status to json
     return generateFrame(node)
 
 

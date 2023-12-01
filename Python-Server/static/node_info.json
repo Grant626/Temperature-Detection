@@ -1,22 +1,22 @@
 {
   "node1": {
     "temp": "001",
-    "status": "test1",
+    "status": "Clear",
     "checked": "111"
   },
   "node2": {
     "temp": "002",
-    "status": "test2",
+    "status": "Clear",
     "checked": "112"
   },
   "node3": {
     "temp": "003",
-    "status": "test3",
+    "status": "Clear",
     "checked": "113"
   },
   "node4": {
     "temp": "004",
-    "status": "test4",
+    "status": "Clear",
     "checked": "114"
   }
 }
