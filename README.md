@@ -18,10 +18,11 @@ Note:
   <li>flask</li>
   <li>opencv-python</li>
   <li>imutils</li>
+  <li>requests</li>
 </ul>
 
 ```
-pip install seekcamera-python flask opencv-python imutils
+pip install seekcamera-python flask opencv-python imutils requests
 ```
 
 Double check that all dependacy imports are satisfied in the server file.
