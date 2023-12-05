@@ -1,22 +1,6 @@
 {
-  "node1": {
-    "temp": "001",
-    "status": "Clear",
-    "checked": "111"
-  },
-  "node2": {
-    "temp": "002",
-    "status": "Clear",
-    "checked": "112"
-  },
-  "node3": {
-    "temp": "003",
-    "status": "Clear",
-    "checked": "113"
-  },
-  "node4": {
-    "temp": "004",
-    "status": "Clear",
-    "checked": "114"
-  }
+  "node1": { "temp": "002", "status": "Critical!", "checked": "04.12.2023 / 20:44" },
+  "node2": { "temp": "002", "status": "Clear", "checked": "04.12.2023 / 20:44" },
+  "node3": { "temp": "003", "status": "Clear", "checked": "113" },
+  "node4": { "temp": "004", "status": "Clear", "checked": "114" }
 }

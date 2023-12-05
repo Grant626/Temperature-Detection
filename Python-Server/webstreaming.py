@@ -112,46 +112,100 @@ def generateFrame(node):
         
         # img.save('./static/node_%s.jpg' % node)
         return "Saving image for node_%s" % node
-  
-               
+
+def tempOver():
+    currentTemp = getMaxTemp(renderer)
+    if currentTemp >= 35: return True;
+    else: return False
+    
+
 ### Routes for thermal data
 
 # json RESTful api get/post requests
 @app.route('/node_temp', methods = ['GET', 'POST'])
 def node_temp():
     node = request.args.get('node')
-    data = json.load(open('./static/node_info.json'))
+    with open('./static/node_info.json', 'r') as file:
+        data = json.load(file)
+        
     if request.method == 'GET':
         return data['node%s' % node]['temp']
     if request.method == 'POST':
-        data['node%s' % node]['temp'] = getMinMax(renderer)
+        data["node" + node]["temp"] = "{}C".format(str(getMaxTemp(renderer)))
+    
+        #write to json database
+        with open("./static/node_info.json", 'w', encoding='utf-8') as f:
+            json.dump(data, f)
 
+        return getMaxTemp(renderer)
+        
 @app.route('/node_status', methods = ['GET', 'POST'])
 def node_status():
     node = request.args.get('node')
-    data = json.load(open('./static/node_info.json'))
+    with open('./static/node_info.json', 'r') as file:
+        data = json.load(file)
+        
     if request.method == 'GET':
         return data['node%s' % node]['status']
     if request.method == 'POST':
         # Method to check status of node based on new frame temp with desired threshold
-        data['node%s' % node]['status'] = 'Clear'
+        if tempOver: 
+            with open('./static/live_info.json', 'r') as file:
+                data = json.load(file)
+                
+            data["status"] = "Node " + node + ": critical"
+            status = 'Critical!'
+        else: status = "Clear"
+        
+        data["node" + node]["status"] = status
+        
+                #write to json database
+        with open("./static/node_info.json", 'w', encoding='utf-8') as f:
+            json.dump(data, f)
+            
+        return status
 
 @app.route('/node_checked', methods = ['GET', 'POST'])
 def node_checked():
     node = request.args.get('node')
-    data = json.load(open('./static/node_info.json'))
+    # read from json database
+    with open('./static/node_info.json', 'r') as file:
+        data = json.load(file)
+        
     if request.method == 'GET':
         return data['node%s' % node]['checked']
     if request.method == 'POST':
+        # get current time
         now = datetime.datetime.now()
-        data['node%s' % node]['checked'] = "%02d.%02d.%04d / %02d:%02d" % (now.day, now.month, now.year, now.hour, now.minute)
+        
+        # save formatted time into json data
+        data["node" + node]["checked"] = "%02d.%02d.%04d / %02d:%02d" % (now.day, now.month, now.year, now.hour, now.minute)
+        
+        #write to json database
+        with open("./static/node_info.json", 'w', encoding='utf-8') as f:
+            json.dump(data, f)
+
+        return data
 
 
 # routes for saving frames
 @app.route('/save_frame', methods = ['POST'])
 def save_frame():
     node = request.args.get('node')
-    # Push current time, frame temp and status to json
+    
+    # update the current checking node to be the next one
+    with open('./static/live_info.json', 'r') as file:
+        data = json.load(file)
+    
+    if node == 4: 
+        data["checking"] = 1
+    else:
+        data["checking"] = node + 1
+        
+    #write to json database
+    with open("./static/live_info.json", 'w', encoding='utf-8') as f:
+        json.dump(data, f)
+        
     return generateFrame(node)
 
 
@@ -159,26 +213,25 @@ def save_frame():
 @app.route("/video_feed")
 def video_feed():
     # return the response generated along with the specific media
-    # type (mime type)
     return Response(generate(), mimetype="multipart/x-mixed-replace; boundary=frame")
 
 @app.route("/live_temp")
 def live_temp():
     # return the highest temp of current frame
-    return getMinMax(renderer)
+    return "{}C".format(str(getMaxTemp(renderer)))
 
 @app.route("/live_checking")
 def live_checking():
-    # return which node the robot is checking 
-    # Possibly store global variable and change upon node update
-    node = 1
+    # return which node the robot is checking based on json database
+    data = json.load(open('./static/live_info.json'))
+    node = data['checking']
     return "Node: {}".format(str(node))
 
 @app.route("/live_status")
 def live_status():
     # return current status of robot
-    # Possibly check if any node is not functioning properly
-    return "All clear"
+    data = json.load(open('./static/live_info.json'))
+    return data['status']
 
 @app.route("/live_time")
 def live_time():

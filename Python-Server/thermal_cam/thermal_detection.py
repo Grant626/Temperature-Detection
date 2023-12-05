@@ -123,9 +123,8 @@ def mouse_events(event, x, y, flags, param):
         y_mouse = y
 
 
-def getMinMax(renderer):
-    # print(renderer)
+def getMaxTemp(renderer):
     if(renderer):
-        return "{}C".format(str(round(renderer.max, 2)))   
+        return round(renderer.max, 2)   
     else:
         raise Exception("Error: cannot locate renderer: \nPlease check camera connection and ensure SDK installation")
