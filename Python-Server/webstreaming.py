@@ -41,13 +41,16 @@ def nodes():
 
 renderer = Renderer()
 
-def detect_temperature(framerate):
-  global outputFrame, lock
+def detect_temperature(framerate=30):
+    
+    time.sleep(5)
 
-  # Create a context structure responsible for managing all connected USB cameras.
-  # Cameras with other IO types can be managed by using a bitwise or of the
-  # SeekCameraIOType enum cases.
-  with SeekCameraManager(SeekCameraIOType.USB) as manager:
+    global outputFrame, lock
+
+    # Create a context structure responsible for managing all connected USB cameras.
+    # Cameras with other IO types can be managed by using a bitwise or of the
+    # SeekCameraIOType enum cases.
+    with SeekCameraManager(SeekCameraIOType.USB) as manager:
       # Start listening for events.
       manager.register_event_callback(on_event, renderer)
 
@@ -69,6 +72,7 @@ def detect_temperature(framerate):
                       
                   with lock:
                     outputFrame = img.copy()
+                    
 
 def generate():
     # grab global references to the output frame and lock variables
@@ -220,5 +224,6 @@ if __name__ == "__main__":
         threaded=True,
         use_reloader=False,
     )
+    
 # release the video stream pointer
 vs.stop()
