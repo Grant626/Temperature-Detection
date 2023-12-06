@@ -1,6 +1,1 @@
-{
-  "node1": { "temp": "002", "status": "Critical!", "checked": "04.12.2023 / 20:44" },
-  "node2": { "temp": "002", "status": "Clear", "checked": "04.12.2023 / 20:44" },
-  "node3": { "temp": "003", "status": "Clear", "checked": "113" },
-  "node4": { "temp": "004", "status": "Clear", "checked": "114" }
-}
+{"node1": {"temp": "34.1C", "status": "Clear", "checked": "06.12.2023 / 01:28"}, "node2": {"temp": "33.2C", "status": "Clear", "checked": "05.12.2023 / 21:16"}, "node3": {"temp": "36.6C", "status": "Critical!", "checked": "06.12.2023 / 01:27"}, "node4": {"temp": "33.1C", "status": "Clear", "checked": "06.12.2023 / 01:08"}}

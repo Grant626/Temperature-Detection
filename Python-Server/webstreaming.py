@@ -22,9 +22,8 @@ app = Flask(__name__)
 
 # initialize the video stream and allow the camera sensor to
 # warmup
-# vs = VideoStream(usePiCamera=1).start()
-vs = VideoStream(src=0).start()
-time.sleep(2.0)
+# vs = VideoStream(src=0).start()
+# time.sleep(2.0)
 
 @app.route("/favicon.ico")
 def favicon():
@@ -137,7 +136,7 @@ def node_temp():
         with open("./static/node_info.json", 'w', encoding='utf-8') as f:
             json.dump(data, f)
 
-        return getMaxTemp(renderer)
+        return {"temp": getMaxTemp(renderer)}
         
 @app.route('/node_status', methods = ['GET', 'POST'])
 def node_status():
@@ -149,21 +148,18 @@ def node_status():
         return data['node%s' % node]['status']
     if request.method == 'POST':
         # Method to check status of node based on new frame temp with desired threshold
-        if tempOver: 
-            with open('./static/live_info.json', 'r') as file:
-                data = json.load(file)
-                
-            data["status"] = "Node " + node + ": critical"
-            status = 'Critical!'
-        else: status = "Clear"
-        
+        if tempOver(): 
+            status = "Critical!"
+        else: 
+            status = "Clear"
+
         data["node" + node]["status"] = status
         
                 #write to json database
         with open("./static/node_info.json", 'w', encoding='utf-8') as f:
             json.dump(data, f)
             
-        return status
+        return {"status": status}
 
 @app.route('/node_checked', methods = ['GET', 'POST'])
 def node_checked():
@@ -185,7 +181,7 @@ def node_checked():
         with open("./static/node_info.json", 'w', encoding='utf-8') as f:
             json.dump(data, f)
 
-        return data
+        return {data}
 
 
 # routes for saving frames
@@ -197,10 +193,10 @@ def save_frame():
     with open('./static/live_info.json', 'r') as file:
         data = json.load(file)
     
-    if node == 4: 
+    if int(node) >= 4: 
         data["checking"] = 1
     else:
-        data["checking"] = node + 1
+        data["checking"] = int(node) + 1
         
     #write to json database
     with open("./static/live_info.json", 'w', encoding='utf-8') as f:
@@ -230,8 +226,12 @@ def live_checking():
 @app.route("/live_status")
 def live_status():
     # return current status of robot
-    data = json.load(open('./static/live_info.json'))
-    return data['status']
+    if tempOver():
+        return "High Temp Detected"
+    else:
+        return "All Clear"
+    # data = json.load(open('./static/live_info.json'))
+    # return data['status']
 
 @app.route("/live_time")
 def live_time():
@@ -269,6 +269,8 @@ if __name__ == "__main__":
     t.daemon = True
     t.start()
 
+    time.sleep(10)
+
     # start the flask app
     app.run(
         host=args["ip"],
@@ -279,4 +281,4 @@ if __name__ == "__main__":
     )
     
 # release the video stream pointer
-vs.stop()
+# vs.stop()

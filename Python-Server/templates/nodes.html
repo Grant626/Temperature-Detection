@@ -18,13 +18,19 @@
       crossorigin="anonymous"></script>
 
     <script>
-      let url = "{{url_for('static', filename='node_1.jpg')}}", 
-          count = 0;
+      let url1 = "{{url_for('static', filename='node_1.jpg')}}", 
+        count1 = 0;
+      let url2 = "{{url_for('static', filename='node_2.jpg')}}", 
+        count2 = 0;
+      let url3 = "{{url_for('static', filename='node_3.jpg')}}", 
+        count3 = 0;
+      let url4 = "{{url_for('static', filename='node_4.jpg')}}", 
+        count4 = 0;
       setInterval(function() {
-          document.getElementById('node1').src = url + '?cnt=' + count++;
-          document.getElementById('node2').src = url + '?cnt=' + count++;
-          document.getElementById('node3').src = url + '?cnt=' + count++;
-          document.getElementById('node4').src = url + '?cnt=' + count++;
+          document.getElementById('node1').src = url1 + '?cnt=' + count1++;
+          document.getElementById('node2').src = url2 + '?cnt=' + count2++;
+          document.getElementById('node3').src = url3 + '?cnt=' + count3++;
+          document.getElementById('node4').src = url4 + '?cnt=' + count4++;
       }, 1000);
     </script>
 
@@ -54,13 +60,13 @@
               <!-- Display data for Node 1 -->
               <p class="card-header">Temperature: <span id="node1Temp"
                   class="text-warning font-weight-bold form-control-lg"
-                  hx-get="/node_temp?node=1" hx-trigger="load">--</span></p>
+                  hx-get="/node_temp?node=1" hx-trigger="load, every 2s">--</span></p>
               <p class="card-header">Status: <span id="node1Status"
                   class="text-info font-weight-bold form-control-lg"
-                  hx-get="/node_status?node=1" hx-trigger="load">--</span></p>
+                  hx-get="/node_status?node=1" hx-trigger="load, every 3s">--</span></p>
               <p class="card-header">Last Checked: <span id="node1Time"
                   class="text-secondary font-weight-bold form-control-lg"
-                  hx-get="/node_checked?node=1" hx-trigger="load">--</span></p>
+                  hx-get="/node_checked?node=1" hx-trigger="load, every 30s">--</span></p>
             </div>
           </div>
         </div>
@@ -76,13 +82,13 @@
               <!-- Display data for Node 2 -->
               <p class="card-header">Temperature: <span id="node2Temp"
                   class="text-warning font-weight-bold form-control-lg"
-                  hx-get="/node_temp?node=2" hx-trigger="load">--</span></p>
+                  hx-get="/node_temp?node=2" hx-trigger="load, every 2s">--</span></p>
               <p class="card-header">Status: <span id="node2Status"
                   class="text-info font-weight-bold form-control-lg"
-                  hx-get="/node_status?node=2" hx-trigger="load">--</span></p>
+                  hx-get="/node_status?node=2" hx-trigger="load, every 3s">--</span></p>
               <p class="card-header">Last Checked: <span id="node1Time"
                   class="text-secondary font-weight-bold form-control-lg"
-                  hx-get="/node_checked?node=2" hx-trigger="load">--</span></p>
+                  hx-get="/node_checked?node=2" hx-trigger="load, every 30s">--</span></p>
             </div>
           </div>
         </div>
@@ -100,13 +106,13 @@
               <!-- Display data for Node 3 -->
               <p class="card-header">Temperature: <span id="node3Temp"
                   class="text-warning font-weight-bold form-control-lg"
-                  hx-get="/node_temp?node=3" hx-trigger="load">--</span></p>
+                  hx-get="/node_temp?node=3" hx-trigger="load, every 2s">--</span></p>
               <p class="card-header">Status: <span id="node3Status"
                   class="text-info font-weight-bold form-control-lg"
-                  hx-get="/node_status?node=3" hx-trigger="load">--</span></p>
+                  hx-get="/node_status?node=3" hx-trigger="load, every 3s">--</span></p>
               <p class="card-header">Last Checked: <span id="node1Time"
                   class="text-secondary font-weight-bold form-control-lg"
-                  hx-get="/node_checked?node=3" hx-trigger="load">--</span></p>
+                  hx-get="/node_checked?node=3" hx-trigger="load, every 30s">--</span></p>
             </div>
           </div>
         </div>
@@ -122,13 +128,13 @@
               <!-- Display data for Node 4 -->
               <p class="card-header">Temperature: <span id="node4Temp"
                   class="text-warning font-weight-bold form-control-lg"
-                  hx-get="/node_temp?node=4" hx-trigger="load">--</span></p>
+                  hx-get="/node_temp?node=4" hx-trigger="load, 2s">--</span></p>
               <p class="card-header">Status: <span id="node4Status"
                   class="text-info font-weight-bold form-control-lg"
-                  hx-get="/node_status?node=4" hx-trigger="load">--</span></p>
+                  hx-get="/node_status?node=4" hx-trigger="load, every 3s">--</span></p>
               <p class="card-header">Last Checked: <span id="node1Time"
                   class="text-secondary font-weight-bold form-control-lg"
-                  hx-get="/node_checked?node=4" hx-trigger="load">--</span></p>
+                  hx-get="/node_checked?node=4" hx-trigger="load, every 30s">--</span></p>
             </div>
           </div>
         </div>
