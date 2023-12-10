@@ -3,19 +3,21 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"
-      integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g=="
-      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <script src="https://unpkg.com/htmx.org@1.9.8"
-      integrity="sha384-rgjA7mptc2ETQqXoYC3/zJvkU7K/aP44Y+z7xQuJiVnB/422P/Ak+F/AqFR7E4Wr"
-      crossorigin="anonymous"></script>
+    <link rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='css/bootstrap.css') }}" />
+    <script
+      type="text/javascript"
+      href="{{ url_for('static',filename='js/jquery.js') }}">
+    </script>
+    <script
+      type="text/javascript"
+      href="{{ url_for('static',filename='js/bootstrap.min.js') }}">
+    </script>
+    <script
+      src="{{ url_for('static',filename='htmx/htmx.min.js') }}">
+    </script>
 
     <script>
       let url1 = "{{url_for('static', filename='node_1.jpg')}}", 
