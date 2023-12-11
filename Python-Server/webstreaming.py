@@ -20,10 +20,6 @@ lock = threading.Lock()
 # initialize a flask object
 app = Flask(__name__)
 
-# initialize the video stream and allow the camera sensor to
-# warmup
-# vs = VideoStream(src=0).start()
-# time.sleep(2.0)
 
 @app.route("/favicon.ico")
 def favicon():
@@ -230,8 +226,6 @@ def live_status():
         return "High Temp Detected"
     else:
         return "All Clear"
-    # data = json.load(open('./static/live_info.json'))
-    # return data['status']
 
 @app.route("/live_time")
 def live_time():
