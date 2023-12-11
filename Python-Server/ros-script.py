@@ -4,6 +4,8 @@ import sys
 node = sys.argv[1]
 api = "http://127.0.0.1:8000/"
 
+print("Trying to save frame for node: " + node)
+
 def saveNodeFrame(node):
   # Request to save frame to server directory
   response = requests.post(api + "save_frame" + "?node=%s" % node)
